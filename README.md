@@ -40,4 +40,4 @@ Criteria used to judge the honesty/reliability of the news articles include:
 
 - Incorporate the Facebook API to automatically post the top rated HonestNews articles to the HonestNews facebook page, to allow those who follow the page to have a reliable newsource from hourly/daily updates.
 
-- Incorporate the Voiceflow API to be able to ask Siri "Tell us the HonestNews today", and have a filtered list of news articles for the user to choose from.
+- Incorporate the Voiceflow API to be able to ask a Google Home "Tell us the HonestNews today", and have a filtered list of news articles for the user to choose from.
