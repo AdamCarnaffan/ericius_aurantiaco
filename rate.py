@@ -67,7 +67,7 @@ class website:
         
     # determine number of citations in page
     def citations(self):
-        citations = self.getQuotes(True).len()
+        citations = len(self.getQuotes(True))
         return citations
 
     # COMBAK: we need to define fluff
@@ -80,8 +80,7 @@ class website:
         text = self.getQuotes(False)
         pronouns = 0
         for words in text:
-            pronouns += len(re.findall('(\Wi\W|\Wme\W|\Wwe\W|\Wus\W|\Wmyself\W|\Wmy\W|\Wour\W|\Wours\W)', words.lower()))
-
+            pronouns += len(re.findall(r'(\Wi\W|\Wme\W|\Wwe\W|\Wus\W|\Wmyself\W|\Wmy\W|\Wour\W|\Wours\W)', words.lower()))
         return pronouns
 
 

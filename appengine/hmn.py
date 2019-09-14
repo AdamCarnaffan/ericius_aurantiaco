@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 class Site_Data:
 
-    def __init__(self, url):
+    def __init__( self, url):
         self.url = url
         self.get_site()
 
@@ -93,6 +93,47 @@ class Site_Data:
         dp = self.__dict__
         del dp['soup']
         return dumps(dp)
+
+    #####################
+    # RATINGS FUNCTIONS #
+    #####################
+
+    def getQuotes(self, isQuote):
+        # count sections of body between quotation marks
+        c1 = 0
+        quotes = []
+        notQuotes = []
+        for partition in self.body.rjust(1).split('"'):
+            c1 += 1
+            if c1 % 2 == 0:
+                # confirm quote is longer than 5 words
+                if len(partition.split()) > 5:
+                    quotes.append(partition)
+            else:
+                notQuotes.append(partition)
+
+        if (isQuote):
+            return quotes
+        else:
+            return notQuotes
+   
+    # determine number of citations in page
+    def citations(self):
+        citations = len(self.getQuotes(True))
+        return citations
+
+    # COMBAK: we need to define fluff
+    def fluff(self):
+        fluff = 0
+        return fluff
+
+    def opinion(self):
+        # count first person pronouns not in quotes
+        text = self.getQuotes(False)
+        pronouns = 0
+        for words in text:
+            pronouns += len(re.findall(r'(\Wi\W|\Wme\W|\Wwe\W|\Wus\W|\Wmyself\W|\Wmy\W|\Wour\W|\Wours\W)', words.lower()))
+        return pronouns
 
 @app.route("/")
 def test():
