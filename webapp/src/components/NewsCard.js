@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {
   Col,
-  Card, CardImg, CardText, CardBody
+  Card, CardImg, CardText, CardBody,
+  Button
 } from 'reactstrap';
 import Truncate from 'react-truncate';
 import './NewsCard.css';
@@ -20,7 +21,7 @@ function Thumbnail(props) {
 export default class NewsCard extends Component {
   render() {
     return (
-      <Col className="featured-card">
+      <Col className="featured-card p-0">
         <Card className="flex-md-row mb-4 shadow h-md-250 border-0">
           <CardBody className="d-flex flex-column align-items-start">
             <strong className={"d-inline-block mb-2 " + this.props.source.className}>{this.props.source.name}</strong>
@@ -35,6 +36,12 @@ export default class NewsCard extends Component {
           </CardBody>
           <Thumbnail image={this.props.thumbnail} />
         </Card>
+
+        <div className="news-card-score-overlay">
+          <Button color="success" className="news-card-score-button m-3 rounded-circle">
+            51
+          </Button>
+        </div>
       </Col>
     )
   }
