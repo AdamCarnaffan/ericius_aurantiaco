@@ -1,0 +1,22 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+    function request() {
+        $.post({
+            url: '/request',
+            data: {
+                'url': $('#url').val()
+            },
+            success: function (data) {
+                console.log(data);
+            }
+        })
+    }
+    </script>
+</head>
+<body>
+    <input id='url'>
+    <button onclick='request()'>Request</button>
+</body>
+</html>
