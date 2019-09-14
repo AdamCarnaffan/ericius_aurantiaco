@@ -44,7 +44,8 @@ def headlines(country_code, max=100):
     chrome_options.add_argument('--headless')  
     chrome_options.add_argument('--window-size=1920,1080')
     chrome_options.add_argument('user-agent={}'.format(HEADERS['User-Agent']))
-    
+    chrome_options.add_argument('--log-level=3');
+
     browser = webdriver.Chrome(chrome.ChromeDriverManager().install(), options=chrome_options)
     browser.get(content_url)
     page_length = scroll_browser(browser)
