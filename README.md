@@ -16,14 +16,14 @@ To give a quantifiable measure of reliability and honesty, allowing users to com
 
 Criteria used to judge the honesty/reliability of the news articles include:
 
-1. Presence of citations
-2. Presence of "opinion" words such as "I think"
-3. Amount of filler/fluff text
-4. Referencing of image captions
-5. Embedded video links if references to videos are present
-6. Image originality (e.g. clipart/stock photos versus authentic photographs)
-5. Site reliability (taken from average scores of articles from the same news source) 
-6. Author reliability (taken from average scores from the same author) 
+- Presence of citations
+- Presence of "opinion" words such as "I think"
+-  Amount of filler/fluff text
+- Referencing of image captions
+- Embedded video links if references to videos are present
+- Image originality (e.g. clipart/stock photos versus authentic photographs)
+-  Site reliability (taken from average scores of articles from the same news source) 
+- Author reliability (taken from average scores from the same author) 
 
 
 How we built it:
