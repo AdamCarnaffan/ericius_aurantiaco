@@ -37,7 +37,7 @@ export default class NewsCard extends Component {
   render() {
     return (
       <Col className="featured-card p-0">
-        <Card className="flex-md-row mb-4 shadow h-md-250 border-0">
+        <Card className="d-flex flex-md-row shadow border-0">
           <CardBody className="d-flex flex-column align-items-start">
             <strong className={"d-inline-block mb-2 " + this.props.source.className}>{this.props.source.name}</strong>
             <h3 className="d-inline-block mb-0 w-100">
