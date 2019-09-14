@@ -89,7 +89,7 @@
   -moz-transition: -moz-transform 0.5s ease-in-out;
   -o-transition: -o-transform 2s ease-in-out;
   -ms-transition: -ms-transform 2s ease-in-out;
-  transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
   opacity: 0;
 }
 
@@ -112,11 +112,10 @@
   background: transparent !important;
   transition: opacity 0.5s ease-in-out;
   opacity: 0;
-
   color: white;
 }
 
 .animate-metric-breakdown-content {
-  transition-delay: 0.5s;
+  transition-delay: 0.1s;
   opacity: 1;
 }
