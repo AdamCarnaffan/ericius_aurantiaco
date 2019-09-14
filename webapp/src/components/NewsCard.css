@@ -40,13 +40,18 @@
   border-radius: .25rem;
 }
 
-/* .news-card-score-button {
-  background: rgba(0, 0, 0, 0.65) !important;
-  color: red !important;
-  border: 1.5px solid !important;
+.news-card-title:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
-.news-card-score-button:hover {
-  background: white !important;
-  color: black !important;
+/* 
+.news-card {
+  transition: all 0.2s;
+}
+
+.news-card:hover {
+  margin-top: -.25rem;
+  margin-bottom: .25rem;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
 } */

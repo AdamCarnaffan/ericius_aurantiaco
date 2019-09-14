@@ -19,15 +19,24 @@ function Thumbnail(props) {
 }
 
 export default class NewsCard extends Component {
+  constructor(props) {
+    super(props);
+    this.onCardClick = this.onCardClick.bind(this);
+  }
+
+  onCardClick() {
+    window.open(this.props.url, '_blank');
+  }
+
   render() {
     const statusColour = lerpColour(['#d9534f', '#f0ad4e', '#28a745'])(this.props.honestyMetric / 100);
     return (
-        <Card className="shadow border-0">
+        <Card className="news-card shadow border-0">
           <Row>
             <Col md="9" className="order-12">
             <CardBody className="callout" style={{borderLeftColor: statusColour}}>
-              <strong className={"mb-2 " + this.props.source.className}>{this.props.source.name}</strong>
-              <CardTitle className="mb-0 w-100" tag="h3">
+              <strong className="mb-2 text-secondary">{this.props.source.name}</strong>
+              <CardTitle className="news-card-title mb-0 w-100" tag="h3" onClick={this.onCardClick}>
                 {this.props.title}
               </CardTitle>
               <CardText tag="p" className="text-secondary mb-auto w-100 mt-3">
@@ -40,7 +49,8 @@ export default class NewsCard extends Component {
             <Col md="3" className="order-1 order-md-12 card-thumbnail-col">
               <Thumbnail image={this.props.thumbnail} />
               <div className="news-card-score-overlay">
-                <Button size="md" style={{background: statusColour, borderColor: statusColour}} className="m-3 news-card-score-button">
+                <Button size="md" style={{background: statusColour, borderColor: statusColour}} 
+                  className="m-3 news-card-score-button shadow">
                   <strong>{this.props.honestyMetric}</strong>
                 </Button>
               </div>
