@@ -10,6 +10,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSmileBeam, faSmile, faMeh, faFrown, faSadCry } from '@fortawesome/free-solid-svg-icons';
 import './NewsCard.css';
 
+function MetricStatusButton(props) {
+  const shadowClass = 'shadow' in props && props.shadow ? 'shadow' : '';
+  return (
+    <div className="news-card-score-overlay">
+        <Button size="md" style={{background: props.statusColour, borderColor: props.statusColour}} 
+          className={"m-3 news-card-score-button " + shadowClass} onClick={props.onStatusButtonClicked}>
+            <div className="w-100 h-100 align-self-center">
+              <FontAwesomeIcon icon={props.statusIcon} className="mr-2" />
+              <strong>{props.honestyMetric}</strong>
+            </div>
+        </Button>
+    </div>
+  );
+}
+
 function Thumbnail(props) {
   if ('image' in props && props.image != null) {
     return (
@@ -73,6 +88,7 @@ export default class NewsCard extends Component {
     }
 
     const rippleAnimationClass = this.state.showMetricBreakdown ? 'animate-ripple' : '';
+    const rippleOverlayBlockEventsClass = this.state.showMetricBreakdown ? 'block-events' : '';
 
     return (
       <Card className="news-card shadow border-0">
@@ -92,19 +108,14 @@ export default class NewsCard extends Component {
           </Col>
           <Col md="3" className="order-1 order-md-12 card-thumbnail-col">
             <Thumbnail image={this.props.thumbnail} />
-            <div className="news-card-score-overlay">
-                <Button size="md" style={{background: statusColour, borderColor: statusColour}} 
-                  className="m-3 news-card-score-button shadow" onClick={this.onStatusButtonClicked}>
-                    <div className="w-100 h-100 align-self-center">
-                      <FontAwesomeIcon icon={statusIcon} className="mr-2" />
-                      <strong>{this.props.honestyMetric}</strong>
-                    </div>
-                </Button>
-            </div>
+            <MetricStatusButton statusColour={statusColour} statusIcon={statusIcon}
+              onStatusButtonClicked={this.onStatusButtonClicked} honestyMetric={this.props.honestyMetric} shadow />
           </Col>
         </Row>
-        <Row className="ripple-overlay">
+        <Row className={"ripple-overlay " + rippleOverlayBlockEventsClass}>
           <div className={"ripple " + rippleAnimationClass} style={{background: statusColour}} />
+          <MetricStatusButton statusColour={statusColour} statusIcon={statusIcon}
+              onStatusButtonClicked={this.onStatusButtonClicked} honestyMetric={this.props.honestyMetric} />
         </Row>
       </Card>
     )

@@ -101,3 +101,7 @@
   transform: scale(50);
   opacity: 1;
 }
+
+.block-events {
+  pointer-events: all !important;
+}
