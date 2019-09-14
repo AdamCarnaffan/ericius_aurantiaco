@@ -6,9 +6,9 @@ Inspiration:
 
 Finding reliable and credible news sources has become an increasingly more difficult task to accomplish. Being able to judge whether a news article is honest is often overlooked, especially when the headlines of articles are written less for accuracy, and more to attract clicks. 
 
-What it does:
+What it is:
 
-This webapp and chrome extension displays a figure from 0-100 on a sliding colour scale of red to green beside the headline of every news article from a google search.
+This webapp and chrome extension displays a figure from 0-100 on a sliding colour scale of red to green, along with a sad-meh-happy emoji beside the headline of every news article from a google search.
 
 Goal:
 
