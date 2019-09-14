@@ -89,6 +89,7 @@ export default class NewsCard extends Component {
 
     const rippleAnimationClass = this.state.showMetricBreakdown ? 'animate-ripple' : '';
     const rippleOverlayBlockEventsClass = this.state.showMetricBreakdown ? 'block-events' : '';
+    const metricBreakdownAnimationClass = this.state.showMetricBreakdown ? 'animate-metric-breakdown-content' : '';
 
     return (
       <Card className="news-card shadow border-0">
@@ -116,6 +117,13 @@ export default class NewsCard extends Component {
           <div className={"ripple " + rippleAnimationClass} style={{background: statusColour}} />
           <MetricStatusButton statusColour={statusColour} statusIcon={statusIcon}
               onStatusButtonClicked={this.onStatusButtonClicked} honestyMetric={this.props.honestyMetric} />
+          <Card className={"ripple-overlay w-100 metric-breakdown-content " + metricBreakdownAnimationClass}>
+            <CardBody>
+              <CardTitle className="news-card-title mb-0 w-100" tag="h5">
+                How was this rated?
+              </CardTitle>
+            </CardBody>
+          </Card>
         </Row>
       </Card>
     )

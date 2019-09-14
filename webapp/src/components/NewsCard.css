@@ -105,3 +105,18 @@
 .block-events {
   pointer-events: all !important;
 }
+
+.metric-breakdown-content {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+
+  color: white;
+}
+
+.animate-metric-breakdown-content {
+  transition-delay: 0.5s;
+  opacity: 1;
+}
