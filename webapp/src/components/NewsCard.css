@@ -1,22 +1,26 @@
 .card-thumbnail {
 	object-fit: cover;
-    border-bottom-left-radius: 0px !important;
-    border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
 }
 
 @media only screen and (min-width: 768px) {
 	.card-thumbnail {
-  		width: 100% !important;
-        height: 100% !important;
-        border-top-left-radius: 0px !important;
-        border-bottom-left-radius: 0px !important;
-        border-bottom-right-radius: calc(0.25rem - 1px) !important;
-  	}
+    width: 100% !important;
+    height: 100% !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: calc(0.25rem - 1px) !important;
+  }
       
-    .card-thumbnail-col {
-      padding-left: 0px !important;
-      padding-right: 0px !important;
-    }
+  .card-thumbnail-col {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  .news-card-score-overlay {
+    padding: 0px !important;
+  }
 }
 
 .news-card-score-overlay {
@@ -26,8 +30,23 @@
   left: 0;
   right: 0;
   text-align: right;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-.news-card-score-button {
-  
+.callout {
+  border: 1px solid white;
+  border-left-width: .25rem;
+  border-radius: .25rem;
 }
+
+/* .news-card-score-button {
+  background: rgba(0, 0, 0, 0.65) !important;
+  color: red !important;
+  border: 1.5px solid !important;
+}
+
+.news-card-score-button:hover {
+  background: white !important;
+  color: black !important;
+} */
