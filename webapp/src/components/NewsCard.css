@@ -1,0 +1,18 @@
+.featured-card .card {
+  max-width: 100%;
+}
+
+.featured-card .card-body {
+  max-width: inherit;
+}
+
+.featured-card .card-body h3 {
+  max-width: inherit;
+}
+
+.featured-card-thumbnail {
+  max-width: 200px;
+  max-height: inherit;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
