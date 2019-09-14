@@ -11,7 +11,7 @@ function Thumbnail(props) {
   if ('image' in props && props.image != null) {
     return (
       <CardImg src={props.image.source} alt={props.image.alt}
-        className="card-img-right featured-card-thumbnail flex-auto d-none d-lg-block" />
+        className="card-img-right featured-card-thumbnail-image flex-auto d-none d-lg-block" />
     );
   }
 
@@ -34,14 +34,15 @@ export default class NewsCard extends Component {
             </Truncate>
             </CardText>
           </CardBody>
-          <Thumbnail image={this.props.thumbnail} />
+          <div className="featured-card-thumbnail">
+            <Thumbnail image={this.props.thumbnail} />            
+            <div className="news-card-score-overlay">
+              <Button size="lg" color="success" className="news-card-score-button m-3 rounded-circle">
+                <strong>51</strong>
+              </Button>
+            </div>
+          </div>
         </Card>
-
-        <div className="news-card-score-overlay">
-          <Button color="success" className="news-card-score-button m-3 rounded-circle">
-            51
-          </Button>
-        </div>
       </Col>
     )
   }
