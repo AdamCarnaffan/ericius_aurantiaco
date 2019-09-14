@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
-  Col, Button,
-  Card, CardImg, CardText, CardBody,
+  Col, Row, Button,
+  Card, CardImg, CardText, CardBody, CardTitle,
   Popover, PopoverHeader, PopoverBody
 } from 'reactstrap';
 import Truncate from 'react-truncate';
@@ -11,7 +11,7 @@ function Thumbnail(props) {
   if ('image' in props && props.image != null) {
     return (
       <CardImg src={props.image.source} alt={props.image.alt}
-        className="card-img-right featured-card-thumbnail-image flex-auto d-none d-lg-block" />
+        className="card-img-top card-thumbnail" />
     );
   }
 
@@ -36,20 +36,27 @@ export default class NewsCard extends Component {
 
   render() {
     return (
-      <Col className="featured-card p-0">
-        <Card className="d-flex flex-md-row shadow border-0">
-          <CardBody className="d-flex flex-column align-items-start">
-            <strong className={"d-inline-block mb-2 " + this.props.source.className}>{this.props.source.name}</strong>
-            <h3 className="d-inline-block mb-0 w-100">
-              {this.props.title}
-          </h3>
-            <CardText tag="p" className="text-secondary mb-auto w-100 mt-3">
-              <Truncate lines={3}>
-                {this.props.content}
-            </Truncate>
-            </CardText>
-          </CardBody>
-          <div className="featured-card-thumbnail">
+        <Card className="shadow border-0">
+          <Row>
+            <Col md="9" className="order-12">
+            <CardBody>
+              <strong className={"mb-2 " + this.props.source.className}>{this.props.source.name}</strong>
+              <CardTitle className="mb-0 w-100" tag="h3">
+                {this.props.title}
+              </CardTitle>
+              <CardText tag="p" className="text-secondary mb-auto w-100 mt-3">
+                <Truncate lines={3}>
+                  {this.props.content}
+                </Truncate>
+              </CardText>
+            </CardBody>
+            </Col>
+            <Col md="3" className="order-1 order-md-12 card-thumbnail-col">
+              <Thumbnail image={this.props.thumbnail} />
+            </Col>
+          </Row>
+          
+          {/* <div className="featured-card-thumbnail">
             <Thumbnail image={this.props.thumbnail} />            
             <div className="news-card-score-overlay">
               <Button size="lg" color="success" id="scoreButton"
@@ -68,9 +75,8 @@ export default class NewsCard extends Component {
                 </PopoverBody>
               </Popover>
             </div>
-          </div>
+          </div> */}
         </Card>
-      </Col>
     )
   }
 }
