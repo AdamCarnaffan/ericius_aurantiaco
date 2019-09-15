@@ -119,13 +119,13 @@ class Site_Data:
    
     # determine number of citations in page
     def citations(self):
-        citations = len(self.getQuotes(True))
-        return citations
+        citationScore = len(self.getQuotes(True))
+        return citationScore
 
     # COMBAK: we need to define fluff
-    def fluff(self):
-        fluff = 0
-        return fluff
+    #def fluff(self):
+    #    fluffScore = 0
+    #    return fluffScore
 
     def opinion(self):
         # count first person pronouns not in quotes
@@ -133,7 +133,14 @@ class Site_Data:
         pronouns = 0
         for words in text:
             pronouns += len(re.findall(r'(\Wi\W|\Wme\W|\Wwe\W|\Wus\W|\Wmyself\W|\Wmy\W|\Wour\W|\Wours\W)', words.lower()))
-        return pronouns
+        opinionScore = pronouns
+        return opinionScore
+
+    def totalRating(self, authorScore, siteScore):
+        score = 100
+        citationScore = - ( 200 / (citations() + 3 ) ) + 100
+        #opinionScore = 
+
 
 @app.route("/")
 def test():
