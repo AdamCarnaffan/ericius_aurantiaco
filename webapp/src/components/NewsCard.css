@@ -20,6 +20,17 @@
 
   .news-card-score-overlay {
     padding: 0px !important;
+    text-align: right !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  /* Make the card score button bigger on mobile screens */
+  .news-card-score-button {
+    padding: .5rem 1rem !important;
+    font-size: 1.25rem !important;
+    line-height: 1.5 !important;
+    border-radius: .3rem !important;
   }
 }
 
@@ -29,9 +40,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  text-align: right;
-  padding-left: 15px;
-  padding-right: 15px;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .callout {
@@ -40,13 +51,18 @@
   border-radius: .25rem;
 }
 
-/* .news-card-score-button {
-  background: rgba(0, 0, 0, 0.65) !important;
-  color: red !important;
-  border: 1.5px solid !important;
+.news-card-title:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
-.news-card-score-button:hover {
-  background: white !important;
-  color: black !important;
+/* 
+.news-card {
+  transition: all 0.2s;
+}
+
+.news-card:hover {
+  margin-top: -.25rem;
+  margin-bottom: .25rem;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
 } */
