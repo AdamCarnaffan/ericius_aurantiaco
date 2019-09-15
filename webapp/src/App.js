@@ -4,6 +4,7 @@ import { Container } from 'reactstrap';
 import NewsCard from './components/NewsCard';
 
 function App() {
+  
   return (
     <div className="App">
       <Container className="app-container py-3">
