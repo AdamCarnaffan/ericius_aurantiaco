@@ -14,8 +14,10 @@ import re
 import math
 import decimal
 from datetime import timedelta, date, datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Background Scheduler
 cron = BackgroundScheduler()
