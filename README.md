@@ -36,11 +36,11 @@ Additionally, we incorporated a user-honesty score powered by SurveyMonkey to al
 
 ## What we learned
 
-- There are so many tools available to make the project run smoothly and efficiently, such as Google's Firebase and React. We learned how to add Firebase's features to our web-app to bring our ideas to reality.
-- How to pay great attention to detail when designing the web-app to ensure that it's user-friendly and aesthetically pleasing. 
+- There are so many tools available to make the project run smoothly and efficiently, such as Google's Firebase and React. We learned how to add Firebase's features to our web-app to bring our ideas to reality
+- How to pay great attention to detail when designing the web-app to ensure that it's user-friendly and aesthetically pleasing
 
 ## What's next for HonestyMatters?
 
 - Incorporate the Facebook API to automatically post the top rated HonestNews articles to the HonestNews facebook page, to allow those who follow the page to have a reliable newsource from hourly/daily updates.
-- Incorporate the Voiceflow API to ask a Google Home "Tell us the honest news today", to output a filtered list of news articles for the user to choose from.
-- Using machine learning and sentiment analysis to detect bias in news articles.
+- Incorporate the Voiceflow API to ask a Google Home "Tell us the honest news today", to output a filtered list of news articles for the user to choose from
+- Using machine learning and sentiment analysis to detect bias in news articles
