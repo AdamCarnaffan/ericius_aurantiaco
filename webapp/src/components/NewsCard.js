@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Col, Row, Button,
   Card, CardImg, CardText, CardBody, CardTitle,
-  UncontrolledTooltip
+  UncontrolledTooltip, Progress 
 } from 'reactstrap';
 import Truncate from 'react-truncate';
 import lerpColour from 'color-interpolate';
@@ -109,6 +109,13 @@ export default class NewsCard extends Component {
     const metricBreakdownAnimationClass = this.state.showMetricBreakdown ? 'animate-metric-breakdown-content' : '';
     const userMetricStatusAnimationClass = this.state.showMetricBreakdown ? 'animate-user-metric-status' : '';
 
+    const breakdownFactorBars = this.props.breakdownFactors.map((factor) => (
+      <Col md="6" className="pl-0">  
+        <div className="text-left">{factor.name}</div>
+        <Progress value={factor.value} max="100" />
+      </Col>
+    ));
+
     return (
       <Card className="news-card shadow border-0">
         <Row>
@@ -160,6 +167,11 @@ export default class NewsCard extends Component {
               <CardTitle className="news-card-title mb-0 w-100" tag="h5">
                 How was this rated?
               </CardTitle>
+              <Col md="9">
+                <Row className="mt-2">
+                  {breakdownFactorBars}
+                </Row>
+              </Col>
             </CardBody>
           </Card>
         </Row>
