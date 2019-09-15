@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Col, Row, Button,
   Card, CardImg, CardText, CardBody, CardTitle,
+  Modal, ModalHeader, ModalBody, ModalFooter,
   UncontrolledTooltip, Progress 
 } from 'reactstrap';
 import Truncate from 'react-truncate';
@@ -74,11 +75,13 @@ export default class NewsCard extends Component {
     super(props);
 
     this.state = {
+      rateSurveyModal: false,
       showMetricBreakdown: false
     }
 
     this.onCardClick = this.onCardClick.bind(this);
     this.onStatusButtonClicked = this.onStatusButtonClicked.bind(this);
+    this.showSurveyModal = this.showSurveyModal.bind(this);
   }
 
   onCardClick() {
@@ -89,6 +92,12 @@ export default class NewsCard extends Component {
     this.setState({
       showMetricBreakdown: !this.state.showMetricBreakdown
     });
+  }
+
+  showSurveyModal() {
+    this.setState(prevState => ({
+      rateSurveyModal: !prevState.rateSurveyModal
+    }));
   }
 
   render() {
@@ -161,12 +170,22 @@ export default class NewsCard extends Component {
               </Col>
               <div className="w-100"></div>
               <Col className="d-flex flex-row justify-content-end align-bottom">
-                <Button size="md" color="dark" className={"m-3 news-card-score-button rate-button " + rateButtonAnimationClass}>
+                <Button size="md" color="dark" className={"m-3 news-card-score-button rate-button " + rateButtonAnimationClass}
+                  onClick={this.showSurveyModal}>
                     <div className="w-100 h-100 align-self-center">
                       <FontAwesomeIcon icon={faPoll} className="mr-2" />
                       <strong>Rate</strong>
                     </div>
                 </Button>
+                <Modal isOpen={this.state.rateSurveyModal} toggle={this.showSurveyModal}>
+                  <ModalHeader toggle={this.showSurveyModal}>Rate it yourself!</ModalHeader>
+                  <ModalBody>
+                  {/* <script>(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src=["https:"===location.protocol?"https://":"http://","widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd7WnuXmrKllSQSuChpOpd0loMeAHVCg1FaiaEsk547HF.js"].join(""),a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script> */}
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary" onClick={this.showSurveyModal}>Done!</Button>{' '}
+                  </ModalFooter>
+                </Modal>
               </Col>
             </Row>
           </div>
