@@ -12,7 +12,7 @@ This web application and chrome extension displays a figure from 0-100 on a slid
 
 To give a quantifiable measure of reliability and honesty, allowing users to compare articles to obtain only the most reliable, credible, and honest sources of information. 
 
-## How it works
+## How I built it
 First, we web-scraped Google News for news articles and processed the information using Google's Cloud's app engine. Each news article found was then scraped and judged for honesty/reliability against the following criteria:
 
 - Presence of citations
@@ -28,13 +28,15 @@ Each criteria above contributes to a weighted mean and results in an overall hon
 Additionally, we incorporated a user-honesty score powered by SurveyMonkey to allow users to provide their feedback for the community.
 
 ## Challenges we ran into
+- Coming up with multi-variable functions to model the citations, opinion, and image captioning senarios correctly.
+- Embedding the SurveyMonkey implementation code on the react platform due to overlays 
 
 
 ## Accomplishments that we're proud of
-
+The smooth transitions and displays related to the web-app design! 
 
 ## What we learned
-
+There are so many tools available to make the project proc, such as Google's Firebase, G
 
 ## What's next for HonestNews?
 
