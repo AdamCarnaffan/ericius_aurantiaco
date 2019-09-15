@@ -70,7 +70,7 @@ class App extends Component {
             thumbnail={{ source: article.thumbnail, alt: "Thumbnail" }}
             url={article.url}
             breakdownFactors={[
-              { name: "Presence of Citations", value: article.citationScore },
+              { name: "Presence of Quotations", value: article.citationScore },
               { name: "Objectivity", value: article.opinionScore },
               { name: "Media Score", value: article.mediaScore},
               { name: "Author Reliability", value: article.authorReliability },
