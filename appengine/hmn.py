@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -12,6 +12,7 @@ import firebase_admin
 import requests
 import time
 import re
+import os
 import math
 import decimal
 from datetime import timedelta, date, datetime
@@ -78,16 +79,19 @@ class Site_Data:
                 else:
                     popImages['%&%'] += [entry]
             largest = ['', 0]
-            for key in popImages:
-                if len(popImages[key]) > largest[1]:
-                    largest[0] = key
-                    largest[1] = len(popImages[key])
-            self.images = []
-            for img in popImages[largest[0]]:
-                try:
-                    self.images += [[img['src'], img.get('alt')]]
-                except:
-                    pass
+            if len(popImages) == 1 and len(popImages['%&%']) < 1:
+                self.images = []
+            else:
+                for key in popImages:
+                    if len(popImages[key]) > largest[1]:
+                        largest[0] = key
+                        largest[1] = len(popImages[key])
+                self.images = []
+                for img in popImages[largest[0]]:
+                    try:
+                        self.images += [[img['src'], img.get('alt')]]
+                    except:
+                        pass
         else:
             self.images = []
         # Fetch video info
@@ -147,10 +151,18 @@ class Site_Data:
         data['url'] = self.url
         data['authors'] = self.authors
         data['site'] = self.site
+        data['timestamp'] = datetime.now()
         return data
 
     def insert(self):
-        pass
+        dt = self.export()
+        cl = firestore.client().collection('articles')
+        dup = False
+        for row in cl.where('title', '==', self.title).stream():
+            dup = True
+        if not dup:
+            firestore.client().collection('articles').add(dt)
+        return self
 
     #####################
     # RATINGS FUNCTIONS #
@@ -232,10 +244,7 @@ class Site_Data:
         caption = 0.6
         video = 0.2
         # print(self.video)
-        print(citationScore, opinionScore, captionScore, videoScore)
         score = ( citation * citationScore + opinion * opinionScore + caption * captionScore + video * videoScore ) / ( citation + opinion + caption + video)
-        
-
         
         self.citationScore = citationScore
         self.opinionScore = opinionScore
@@ -335,7 +344,11 @@ def headlines(country_code, max=100):
 
 def trigger_headline_collect():
     res = headlines('CA')
-    print(res)
+    for site in res:
+        news = Site_Data(res['url'])
+        news.process_article()
+        news.total_rating()
+        news.insert()
     return
 
 def json_serial(obj):
@@ -355,9 +368,18 @@ def json_serial(obj):
 # ROUTES #
 ##########
 
-@app.route("/")
+@app.route("/", defaults={'path': ''})
+@app.route('/<path:path>')
+def react_app(path):
+    if path != "" and os.path.exists(app.static_folder + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
+
+
+@app.route("/submit")
 def test():
-    return render_template('tester.html')
+    return render_template("tester.html")
 
 @app.route("/request", methods=['POST'])
 def get_page_data(url=None):
@@ -367,6 +389,7 @@ def get_page_data(url=None):
     newdt = Site_Data(url)
     newdt.process_article()
     newdt.total_rating()
+    newdt.insert()
     return str(newdt.rating) + " - O {}, M {}, C {}".format(newdt.opinionScore, newdt.mediaScore, newdt.citationScore)
 
 @app.route("/pleasegivemedatamylordplease", methods=['POST'])
