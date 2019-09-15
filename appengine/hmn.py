@@ -126,10 +126,10 @@ class Site_Data:
         else:
             return notQuotes
    
-    def totalWords(self):
+    def total_words(self):
         length = 0
         for text in self.getQuotes(False):
-            length += len(self.text.split())
+            length += len(text.split())
         return length
 
     # determine number of citations in page
@@ -151,33 +151,37 @@ class Site_Data:
         opinionScore = pronouns
         return opinionScore
 
-    def videoRef(self)
+    def video_ref(self):
         textRef = 0
-        videoRef = 0
+        videoRef = 100
         for text in self.getQuotes(False):
-             textRef += len(re.findall(r'((\Wvideo\W)(?!game)|\Wfilm\W|\Wclip\W|\Wmedia\W)', words.lower()))
-        if textRef > 2:
-            videoRef = 100
+            textRef += len(re.findall(r'((\Wvideo\W)(?!game)|\Wfilm\W|\Wclip\W|\Wmedia\W)', text.lower()))
+        if textRef > 2 and self.video is None:
+            videoRef = 0
         return videoRef
 
-    def totalRating(self, authorScore, siteScore):
+    def total_rating(self, authorScore=None, siteScore=None):
         score = 100
-        citationScore = -1 * ( 200 / (citations() + 3 ) ) + 100
-        opinionScore = ( 75 ) * ( 1.5 ^ ( ( -150 * opinion() ) / totalWords() ) + 25 )
+        citationScore = -1 * ( 200 / (self.citations() + 3 ) ) + 100
+        opinionScore = ( 75 ) * ( 1.5 ** ( ( -150 * self.opinion() ) / self.total_words() )) + 25
         captionCount = 0
         for image in self.images:
             if image[1] != None:
                 captionCount += 1
-        captionScore = 1.032 * (-2 ^ ( (-5 * captionCount) / len(self.images) ) + 1 )
-        videoScore = videoRef
+        captionScore = (1.032 * (-2 ** ( (-5 * captionCount) / len(self.images) ) + 1 )) * 100
+        videoScore = self.video_ref()
 
         citation = 1
         opinion = 1
         caption = 1
         video = 0.3
+        print(self.video)
+        print(citationScore, opinionScore, captionScore, videoScore)
         score = ( citation * citationScore + opinion * opinionScore + caption * captionScore + video * videoScore ) / ( citation + opinion + caption + video)
         
-        return score
+        self.rating = score
+
+        return self
 
 
 ###############
@@ -287,12 +291,13 @@ def get_page_data(url=None):
         url = request.form.get('url')
     newdt = Site_Data(url)
     newdt.process_article()
-    return newdt.dump()
+    newdt.total_rating()
+    return str(newdt.rating)
 
 # Maintenance
 
 # Schedule jobs
-cron.add_job(func=trigger_headline_collect, trigger='interval', minutes=2)
+cron.add_job(func=trigger_headline_collect, trigger='interval', minutes=10)
 cron.start()
 
 if __name__ == "__main__":
