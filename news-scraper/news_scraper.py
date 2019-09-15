@@ -1,7 +1,4 @@
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager import chrome
 
 import time
 import requests
@@ -39,29 +36,8 @@ def headlines(country_code, max=100):
     from urllib.parse import urljoin
     content_url = urljoin(root_url, content_url)
 
-    # Use selenium to scroll down to the bottom of the page
-    chrome_options = Options()  
-    chrome_options.add_argument('--headless')  
-    chrome_options.add_argument('--window-size=1920,1080')
-    chrome_options.add_argument('user-agent={}'.format(HEADERS['User-Agent']))
-    chrome_options.add_argument('--log-level=3')
-
-    browser = webdriver.Chrome(chrome.ChromeDriverManager().install(), options=chrome_options)
-    browser.get(content_url)
-    page_length = scroll_browser(browser)
-    while True:
-        previous_length = page_length
-        # Wait a few seconds for the data to load...
-        time.sleep(3)
-        page_length = scroll_browser(browser)
-
-        # If there has been no change in the page length,
-        # we have finished scrolling...therefore, we're done!
-        if previous_length == page_length:
-            break
-
     # Parse the articles
-    content = BeautifulSoup(browser.page_source, features='html.parser')
+    content = BeautifulSoup(requests.get(content_url).text, features='html.parser')
     articles = content.find_all('div', { 'class': 'xrnccd F6Welf R7GTQ keNKEd j7vNaf' }, limit=max)
 
     article_data = []
