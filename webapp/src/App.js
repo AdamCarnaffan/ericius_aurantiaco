@@ -3,6 +3,7 @@ import './App.css';
 import { Container } from 'reactstrap';
 import NewsCard from './components/NewsCard';
 import moment from 'moment';
+import articleExtractor from 'unfluff';
 
 class App extends Component {
   constructor(props) {
@@ -18,9 +19,9 @@ class App extends Component {
       .then(response => response.json())
       .then(responseJson => {
         for (let i = 0; i < responseJson.length; ++i) {
-          const article = {
+          let article = {
             citationScore: responseJson[i]['citation_score'],
-            headline: responseJson[i]['headline'],
+            headline: decodeURI(responseJson[i]['headline']).replace(/\\/g, ''),
             mediaScore: responseJson[i]['media_score'],
             opinionScore: responseJson[i]['opinion_score'],
             rating: responseJson[i]['rating'],
@@ -30,7 +31,16 @@ class App extends Component {
             authorReliability: responseJson[i]['author_reliability'],
             siteReliability: responseJson[i]['site_reliability']
           };
+
+          let articleContent = '';
+          fetch(article.url)
+            .then(response => response.text())
+            .then(responseText => {
+              articleContent = articleExtractor(responseText).text;
+            })
+            .catch(error => console.error(error));
   
+          article['content'] = articleContent;
           articles.push(article);
         }
 
@@ -50,12 +60,13 @@ class App extends Component {
   render() {
     if (this.state === null) return null;
     const articleCards = this.state.articles.map((article) => {
+      const honestyMetric = Math.round((article.rating + article.authorReliability + article.siteReliability) / 3);
       return (
-        <Container className="app-container py-3">
+        <Container className="app-container py-3" key={article.url}>
           <NewsCard source={{ name: moment(article.timestamp).format('MMMM Do YYYY, h:mm:ss a') }}
-            honestyMetric={article.rating} userHonestyMetric={70}
+            honestyMetric={honestyMetric} userHonestyMetric={70}
             title={article.headline}
-            content={"test"}
+            content={article.content}
             thumbnail={{ source: article.thumbnail, alt: "Thumbnail" }}
             url={article.url}
             breakdownFactors={[

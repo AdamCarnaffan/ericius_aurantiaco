@@ -13,7 +13,8 @@
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1",
     "react-truncate": "^2.4.0",
-    "reactstrap": "^8.0.1"
+    "reactstrap": "^8.0.1",
+    "unfluff": "^3.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
