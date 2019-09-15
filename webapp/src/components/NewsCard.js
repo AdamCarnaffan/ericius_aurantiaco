@@ -176,7 +176,7 @@ export default class NewsCard extends Component {
               <CardTitle className="news-card-title mb-0 w-100" tag="h5">
                 How was this rated?
               </CardTitle>
-              <Col md="9">
+              <Col md="9" sm="9" xs="8">
                 <Row className="mt-2">
                   {breakdownFactorBars}
                 </Row>
