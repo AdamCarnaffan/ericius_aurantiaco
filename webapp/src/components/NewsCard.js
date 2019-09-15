@@ -120,7 +120,7 @@ export default class NewsCard extends Component {
     const rateButtonAnimationClass = this.state.showMetricBreakdown ? 'animate-rate-button' : '';
 
     const breakdownFactorBars = this.props.breakdownFactors.map((factor) => (
-      <Col md="6" className="pl-0">  
+      <Col md="6" className="pl-0" key={factor.name}>  
         <div className="text-left">{factor.name}</div>
         <Progress value={factor.value} max="100" />
       </Col>
