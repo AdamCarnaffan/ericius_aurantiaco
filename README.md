@@ -6,7 +6,7 @@ Finding reliable and credible news sources has become an increasingly more diffi
 
 ## What it does
 
-This web application displays a figure from 0-100 on a red-green sliding scale beside the headline of every news article from a google news search. This is done to give a quantifiable measure of reliability and credibility of news articles, allowing users to compare articles to obtain only the most honest sources of information. Users can also rate news article based their perception of the level of credibility to provide feedback for the community.
+This web application displays a figure from 0-100 on a red-green sliding scale beside the headline of every news article from a google news search. This is done to give a quantifiable measure of reliability and credibility of news articles, allowing users to compare articles to obtain only the most honest sources of information. Users can also provide their own ratings as feedback for the community based on their perception of an article's reliability.
 
 ## How we built it
 
