@@ -7,11 +7,16 @@ import { withFirebase } from './components/firebase';
 
 class App extends Component {
   componentDidMount() {
-    const articlesRef = this.props.firebase.db.ref('articles');
-    articlesRef.on('value', (snapshot) => {
-      // let items = snapshot.val();
-      console.log(snapshot);
-    });
+    // console.log(this.props.firebase.db.ref('articles'));
+    async function test(fb) {
+      const snap = await fb.firestore().collection('articles').get();
+      console.log(snap);
+    }
+    test(this.props.firebase);
+    // articlesRef.on('value', (snapshot) => {
+    //   // let items = snapshot.val();
+    //   console.log(snapshot.val());
+    // });
     // let newState = [];
     // for (let item in items) {
     //   newState.push({

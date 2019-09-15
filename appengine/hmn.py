@@ -1,17 +1,19 @@
 from flask import Flask, request, render_template
-from urllib.request import urlopen
+from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager import chrome
 from json import loads, dumps
 from apscheduler.schedulers.background import BackgroundScheduler
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, firestore, datetime
 import firebase_admin
 import requests
 import time
 import re
 import math
+import decimal
+from datetime import timedelta, date, datetime
 
 app = Flask(__name__)
 
@@ -110,7 +112,16 @@ class Site_Data:
         return self
 
     def get_site(self):
-        self.page = str(urlopen(self.url).read())
+
+        request_headers = {
+            "Accept-Language": "en-US,en;q=0.5",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Referer": "http://thewebsite.com",
+            "Connection": "keep-alive" 
+        }
+        req = Request(self.url, headers=request_headers)
+        self.page = str(urlopen(req).read())
         self.soup = BeautifulSoup(self.page, features='html.parser')
         return self
 
@@ -313,6 +324,19 @@ def trigger_headline_collect():
     print(res)
     return
 
+def json_serial(obj):
+   """JSON serializer for non JSON serializable objects"""
+
+   if isinstance(obj, (datetime, date)):
+      return obj.isoformat()
+   elif isinstance(obj, (timedelta)):
+      return ':'.join(str(obj).split(':')[:2])
+   elif isinstance(obj, (decimal.Decimal)):
+      return float(obj)
+   elif type(obj) == 'DatetimeWithNanoseconds':
+      return int(obj)
+   raise TypeError ("Type {} is not serializable".format(type(obj)))
+
 ##########
 # ROUTES #
 ##########
@@ -323,9 +347,6 @@ def test():
 
 @app.route("/request", methods=['POST'])
 def get_page_data(url=None):
-    # print(firestore.client().collection('articles').document('url').get())
-    print(firestore.client().collection('articles').document(u'NAuT0kNfQvLQFlila3AT').get().to_dict())
-    return ""
     if url is None:
         url = request.form.get('url')
         if url is None: return "An error occured loading the URL"
@@ -333,6 +354,13 @@ def get_page_data(url=None):
     newdt.process_article()
     newdt.total_rating()
     return str(newdt.rating) + " - O {}, M {}, C {}".format(newdt.opinionScore, newdt.mediaScore, newdt.citationScore)
+
+@app.route("/pleasegivemedatamylordplease", methods=['POST'])
+def give_data_to_react():
+    dt = []
+    for row in firestore.client().collection('articles').stream():
+        dt += [row.to_dict()]
+    return dumps(dt, default=json_serial)
 
 # Maintenance
 
