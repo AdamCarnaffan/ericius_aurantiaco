@@ -4,28 +4,6 @@ import { Container } from 'reactstrap';
 import NewsCard from './components/NewsCard';
 
 class App extends Component {
-<<<<<<< HEAD
-  componentDidMount() {
-    // console.log(this.props.firebase.db.ref('articles'));
-    async function test(fb) {
-      const snap = await fb.firestore().collection('articles').get();
-      console.log(snap);
-    }
-    test(this.props.firebase);
-    // articlesRef.on('value', (snapshot) => {
-    //   // let items = snapshot.val();
-    //   console.log(snapshot.val());
-    // });
-    // let newState = [];
-    // for (let item in items) {
-    //   newState.push({
-    //     headline: 
-    //   })
-    // }
-  }
-
-=======
->>>>>>> e34245bf52630d8d5953900c4d6842a98abfc36a
   render() {
     return (
       <div className="App">
