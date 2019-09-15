@@ -11,6 +11,7 @@ import firebase_admin
 import requests
 import time
 import re
+import math
 
 app = Flask(__name__)
 
@@ -187,7 +188,7 @@ class Site_Data:
 
     def total_rating(self, authorScore=None, siteScore=None):
         score = 100
-        citationScore = -1 * ( 200 / (self.citations() + 3 ) ) + 100
+        citationScore = 25 * math.exp( -( ( self.citations() / ( self.total_words() / 300 ) ) - 1.3 ) ** 10 ) + 25 * math.exp( -( ( self.citations() / ( self.total_words() / 300 ) ) - 1.3 ) ** 4 ) + 50 * math.exp( -( ( self.citations() / ( self.total_words() / 13.5 ) ) - 1.002 ) ** 1000 )
         opinionScore = ( 75 ) * ( 1.5 ** ( ( -150 * self.opinion() ) / self.total_words() )) + 25
         captionCount = 0
         for image in self.images:
