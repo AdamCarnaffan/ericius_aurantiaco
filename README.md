@@ -6,7 +6,7 @@ Finding reliable and credible news sources has become an increasingly more diffi
 
 ## What it is 
 
-This web application and chrome extension displays a figure from 0-100 on a sliding colour scale of red to green, along with a sad-meh-happy emoji beside the headline of every news article from a google search.
+This web application displays a figure from 0-100 on a sliding colour scale of red to green beside the headline of every news article from a google search. Users can also rate the news article based their perception of the level of credibility to provide feedback for the community.
 
 ## Goal
 
