@@ -136,7 +136,7 @@ export default class NewsCard extends Component {
               <CardTitle className="news-card-title mb-0 w-100" tag="h3" onClick={this.onCardClick}>
                 {this.props.title}
               </CardTitle>
-              <CardText tag="p" className="text-secondary mb-auto w-100 mt-3">
+              <CardText tag="p" className="text-secondary mb-auto w-100 mt-3" style={{minHeight: 'calc(2rem * 3)'}}>
                 <Truncate lines={3}>
                   {this.props.content}
                 </Truncate>
