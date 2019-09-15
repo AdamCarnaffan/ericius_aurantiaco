@@ -118,6 +118,12 @@ class Site_Data:
         else:
             return notQuotes
    
+    def totalWords(self):
+        length = 0
+        for text in self.getQuotes(False):
+            length += len(self.text.split())
+        return length
+
     # determine number of citations in page
     def citations(self):
         citationScore = len(self.getQuotes(True))
@@ -137,12 +143,14 @@ class Site_Data:
         opinionScore = pronouns
         return opinionScore
 
-
-    def totalWords(self):
-        length = 0
+    def videoRef(self)
+        textRef = 0
+        videoRef = 0
         for text in self.getQuotes(False):
-            length += len(self.text.split())
-        return len
+             textRef += len(re.findall(r'((\Wvideo\W)(?!game)|\Wfilm\W|\Wclip\W|\Wmedia\W)', words.lower()))
+        if textRef > 2:
+            videoRef = 100
+        return videoRef
 
     def totalRating(self, authorScore, siteScore):
         score = 100
@@ -153,11 +161,13 @@ class Site_Data:
             if image[1] != None:
                 captionCount += 1
         captionScore = 1.032 * (-2 ^ ( (-5 * captionCount) / len(self.images) ) + 1 )
+        videoScore = videoRef
 
         citation = 1
         opinion = 1
         caption = 1
-        score = ( citation * citationScore + opinion * opinionScore + caption * captionScore ) / ( citation + opinion + caption )
+        video = 0.3
+        score = ( citation * citationScore + opinion * opinionScore + caption * captionScore + video * videoScore ) / ( citation + opinion + caption + video)
         
         return score
 
