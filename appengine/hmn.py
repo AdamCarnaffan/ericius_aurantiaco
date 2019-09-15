@@ -42,6 +42,8 @@ class Site_Data:
             self.schema = loads(re.sub(r'\\x..', '', re.sub('^[^{]*', '', re.sub('[^}]*$', '', schemaSearch.string)).replace("\\'", "'").replace('\\n', '').replace('\\\\"', ''))) if schemaSearch is not None else None
         except:
             self.schema = None
+        # Get Site
+        self.site = self.url.split('/')[2]
         # Get title
         title = self.soup.title
         self.title = title.string if title is not None else None
@@ -105,7 +107,7 @@ class Site_Data:
                     else:
                         bodies[cl] = entry.string
             else:
-                bodies['%&%'] += entry.string
+                bodies['%&%'] += " " + entry.string
         longest = ['', 0]
         for key in bodies:
             if len(bodies[key]) >= longest[1]:
@@ -143,6 +145,8 @@ class Site_Data:
         data['thumbnail'] = self.images[0][0] if len(self.images) > 0 else None
         data['timestamp'] = self.publish
         data['url'] = self.url
+        data['authors'] = self.authors
+        data['site'] = self.site
         return data
 
     def insert(self):
@@ -157,7 +161,8 @@ class Site_Data:
         c1 = 0
         quotes = []
         notQuotes = []
-        for partition in re.split('["“”]', self.body.rjust(1)):
+        # print(self.body)
+        for partition in re.split('["“”]', self.body.rjust(1).replace('\\xe2\\x80\\x9c', '“').replace('\\xe2\\x80\\x9d', '”')):
             c1 += 1
             if c1 % 2 == 0:
                 # confirm quote is longer than 5 words
@@ -165,7 +170,6 @@ class Site_Data:
                     quotes.append(partition)
             else:
                 notQuotes.append(partition)
-
         if (isQuote):
             return quotes
         else:
@@ -207,13 +211,20 @@ class Site_Data:
 
     def total_rating(self, authorScore=None, siteScore=None):
         score = 100
-        citationScore = 25 * math.exp( -( ( self.citations() / ( self.total_words() / 300 ) ) - 1.3 ) ** 10 ) + 25 * math.exp( -( ( self.citations() / ( self.total_words() / 300 ) ) - 1.3 ) ** 4 ) + 50 * math.exp( -( ( self.citations() / ( self.total_words() / 13.5 ) ) - 1.002 ) ** 1000 )
-        opinionScore = ( 75 ) * ( 1.5 ** ( ( -150 * self.opinion() ) / self.total_words() )) + 25
+        if self.total_words() < 1: 
+            citationScore = 0
+            opinionScore = 0
+        else:
+            citationScore = 25 * math.exp( -( ( self.citations() / ( self.total_words() / 150 ) ) - 1.3 ) ** 10 ) + 25 * math.exp( -( ( self.citations() / ( self.total_words() / 150 ) ) - 1.3 ) ** 4 ) + 50 * math.exp( -( ( self.citations() / ( self.total_words() / 13.5 ) ) - 1.005 ) ** 1000 )
+            opinionScore = ( 75 ) * ( 1.5 ** ( ( -150 * self.opinion() ) / self.total_words() )) + 25
         captionCount = 0
         for image in self.images:
             if image[1] != None:
                 captionCount += 1
-        captionScore = (1.032 * (-2 ** ( (-5 * captionCount) / len(self.images) ) + 1 )) * 100
+        if len(self.images) < 1:
+            captionScore = 100
+        else:
+            captionScore = (1.032 * (-2 ** ( (-5 * captionCount) / len(self.images) ) + 1 )) * 100
         videoScore = self.video_ref()
 
         citation = 1
@@ -361,8 +372,27 @@ def get_page_data(url=None):
 @app.route("/pleasegivemedatamylordplease", methods=['POST'])
 def give_data_to_react():
     dt = []
-    for row in firestore.client().collection('articles').stream():
-        dt += [row.to_dict()]
+    cl = firestore.client().collection('articles')
+    for row in cl.order_by('timestamp').limit(100).stream():
+        rowDict = row.to_dict()
+        # Get author bias
+        authScore = 0
+        count = 0
+        for auth in cl.order_by('timestamp').limit(20).where('authors', '==', rowDict['authors']).stream():
+            count = count + 1
+            authScore += auth.to_dict()['rating']
+        finalAuth = authScore / count
+        # Get site bias
+        siteScore = 0
+        count = 0
+        for st in cl.order_by('timestamp').limit(20).where('site', '==', rowDict['site']).stream():
+            count = count + 1
+            siteScore += st.to_dict()['rating']
+        finalSite = siteScore / count
+        dt += [{'authors': rowDict['authors'], 'citation_score': rowDict['citation_score'], 'headline': rowDict['headline'], 
+                'media_score': rowDict['media_score'], 'opinion_score': rowDict['opinion_score'], 'rating': rowDict['rating'],
+                'site': rowDict['site'], 'thumbnail': rowDict['thumbnail'], 'timestamp': rowDict['timestamp'],
+                'url': rowDict['url'], 'author_reliability': finalAuth, 'site_reliability': finalSite}]
     return dumps(dt, default=json_serial)
 
 # Maintenance
