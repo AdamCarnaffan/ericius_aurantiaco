@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -12,6 +12,7 @@ import firebase_admin
 import requests
 import time
 import re
+import os
 import math
 import decimal
 from datetime import timedelta, date, datetime
@@ -367,9 +368,18 @@ def json_serial(obj):
 # ROUTES #
 ##########
 
-@app.route("/")
+@app.route("/", defaults={'path': ''})
+@app.route('/<path:path>')
+def react_app(path):
+    if path != "" and os.path.exists(app.static_folder + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
+
+
+@app.route("/submit")
 def test():
-    return render_template('tester.html')
+    return render_template("tester.html")
 
 @app.route("/request", methods=['POST'])
 def get_page_data(url=None):
