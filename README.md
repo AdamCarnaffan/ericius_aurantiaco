@@ -4,15 +4,11 @@
 
 Finding reliable and credible news sources has become an increasingly more difficult task to accomplish. Being able to judge whether a news article is honest is often overlooked, especially when the headlines of articles are written less for accuracy, and more to attract clicks. 
 
-## What it is 
+## What it does
 
-This web application displays a figure from 0-100 on a sliding colour scale of red to green beside the headline of every news article from a google search. Users can also rate the news article based their perception of the level of credibility to provide feedback for the community.
+This web application displays a figure from 0-100 on a red-green sliding scale beside the headline of every news article from a google news search. This is done to give a quantifiable measure of reliability and credibility of news articles, allowing users to compare articles to obtain only the most honest sources of information. Users can also rate news article based their perception of the level of credibility to provide feedback for the community.
 
-## Goal
-
-To give a quantifiable measure of reliability and honesty, allowing users to compare articles to obtain only the most reliable, credible, and honest sources of information. 
-
-## How I built it
+## How we built it
 
 First, we web-scraped Google News for news articles and processed the information using Google's Cloud's app engine. Each news article found was then scraped and judged for honesty/reliability against the following criteria:
 
