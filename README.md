@@ -16,7 +16,7 @@ To give a quantifiable measure of reliability and honesty, allowing users to com
 First, we web-scraped Google News for news articles and processed the information using Google's Cloud's app engine. Each news article found was then scraped and judged for honesty/reliability against the following criteria:
 
 - Presence of citations
-- Presence of "opinion" words such as "I think"
+- Presence of opinion words such as "I think"
 - Referencing of image captions
 - Embedded video links if references to videos are present
 - Site reliability (taken from average scores of articles from the same news source) 
