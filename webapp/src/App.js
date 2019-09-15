@@ -26,7 +26,9 @@ class App extends Component {
             rating: responseJson[i]['rating'],
             thumbnail: responseJson[i]['thumbnail'],
             timestamp: responseJson[i]['timestamp'],
-            url: responseJson[i]['url']
+            url: responseJson[i]['url'],
+            authorReliability: responseJson[i]['author_reliability'],
+            siteReliability: responseJson[i]['site_reliability']
           };
   
           articles.push(article);
@@ -60,8 +62,8 @@ class App extends Component {
               { name: "Presence of Citations", value: article.citationScore },
               { name: "Objectivity", value: article.opinionScore },
               { name: "Media Score", value: article.mediaScore},
-              { name: "Author Reliability", value: 86 },
-              { name: "Site Reliability", value: 100 },
+              { name: "Author Reliability", value: article.authorReliability },
+              { name: "Site Reliability", value: article.siteReliability },
             ]} />
         </Container>
       );
