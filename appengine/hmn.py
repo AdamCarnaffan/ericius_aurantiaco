@@ -140,7 +140,7 @@ class Site_Data:
         c1 = 0
         quotes = []
         notQuotes = []
-        for partition in self.body.rjust(1).split('"'):
+        for partition in re.split('["“”]', self.body.rjust(1)):
             c1 += 1
             if c1 % 2 == 0:
                 # confirm quote is longer than 5 words
