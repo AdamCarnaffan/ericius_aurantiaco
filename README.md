@@ -1,4 +1,4 @@
-# HonestNews
+# HonestyMatters
 
 ## Inspiration
 
