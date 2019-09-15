@@ -136,10 +136,29 @@ class Site_Data:
         opinionScore = pronouns
         return opinionScore
 
+
+    def totalWords(self):
+        length = 0
+        for text in self.getQuotes(False):
+            length += len(self.text.split())
+        return len
+
     def totalRating(self, authorScore, siteScore):
         score = 100
-        citationScore = - ( 200 / (citations() + 3 ) ) + 100
-        #opinionScore = 
+        citationScore = -1 * ( 200 / (citations() + 3 ) ) + 100
+        opinionScore = ( 75 ) * ( 1.5 ^ ( ( -150 * opinion() ) / totalWords() ) + 25 )
+        captionCount = 0
+        for image in self.images:
+            if image[1] != None:
+                captionCount += 1
+        captionScore = 1.032 * (-2 ^ ( (-5 * captionCount) / len(self.images) ) + 1 )
+
+        citation = 1
+        opinion = 1
+        caption = 1
+        score = ( citation * citationScore + opinion * opinionScore + caption * captionScore ) / ( citation + opinion + caption )
+        
+        return score
 
 
 @app.route("/")
