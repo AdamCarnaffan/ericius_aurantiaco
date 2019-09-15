@@ -40,7 +40,8 @@ Additionally, we incorporated a user-honesty score powered by SurveyMonkey to al
 
 ## What we learned
 
-There are so many tools available to make the project run smoothly and efficiently, such as Google's Firebase and React. We learned how to add Firebase's features to our web-app to bring our ideas to reality.  
+- There are so many tools available to make the project run smoothly and efficiently, such as Google's Firebase and React. We learned how to add Firebase's features to our web-app to bring our ideas to reality.
+- How to pay great attention to detail when designing the web-app to ensure that it's user-friendly and aesthetically pleasing. 
 
 ## What's next for HonestNews?
 
