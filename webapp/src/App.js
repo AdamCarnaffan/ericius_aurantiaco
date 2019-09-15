@@ -3,9 +3,8 @@ import './App.css';
 import { Container } from 'reactstrap';
 import NewsCard from './components/NewsCard';
 
-import { withFirebase } from './components/firebase';
-
 class App extends Component {
+<<<<<<< HEAD
   componentDidMount() {
     // console.log(this.props.firebase.db.ref('articles'));
     async function test(fb) {
@@ -25,6 +24,8 @@ class App extends Component {
     // }
   }
 
+=======
+>>>>>>> e34245bf52630d8d5953900c4d6842a98abfc36a
   render() {
     return (
       <div className="App">
@@ -47,4 +48,4 @@ class App extends Component {
   }
 }
 
-export default withFirebase(App);
+export default App;
