@@ -180,7 +180,8 @@ export default class NewsCard extends Component {
                 <Modal isOpen={this.state.rateSurveyModal} toggle={this.showSurveyModal}>
                   <ModalHeader toggle={this.showSurveyModal}>Rate it yourself!</ModalHeader>
                   <ModalBody>
-                  {/* <script>(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src=["https:"===location.protocol?"https://":"http://","widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd7WnuXmrKllSQSuChpOpd0loMeAHVCg1FaiaEsk547HF.js"].join(""),a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script> */}
+                    <iframe title="User Rating Survey" src="./rating-survey-embed.html"
+                      width="600px" height="400px"></iframe>
                   </ModalBody>
                   <ModalFooter>
                     <Button color="primary" onClick={this.showSurveyModal}>Done!</Button>{' '}
