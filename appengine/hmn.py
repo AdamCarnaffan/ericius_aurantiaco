@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager import chrome
 from json import loads, dumps
 from apscheduler.schedulers.background import BackgroundScheduler
-from firebase_admin import db, credentials, firestore
+from firebase_admin import credentials, firestore
 import firebase_admin
 import requests
 import time
@@ -23,9 +23,6 @@ cred = credentials.Certificate('serviceAccountKey.json')
 firebase_admin.initialize_app(cred)
 
 
-conn = firestore.client().collection('articles')
-
-
 class Site_Data:
 
     def __init__( self, url):
@@ -34,10 +31,15 @@ class Site_Data:
 
     def process_article(self):
         # Get Schema
-        schemaSearch = self.soup.find('script', text=re.compile('schema.org'))
-        self.schema = loads(re.sub(r'\\x..', '', schemaSearch.string.split('\\n', 1)[-1].rsplit('\\n', 1)[0].strip().replace("\\'", "'"))) if schemaSearch is not None else None
+        try:
+            schemaSearch = self.soup.find('script', text=re.compile('schema.org'))
+            print(re.sub(r'\\x..', '', re.sub('^[^{]*', '', re.sub('[^}]*$', '', schemaSearch.string)).replace("\\'", "'")))
+            self.schema = loads(re.sub(r'\\x..', '', re.sub('^[^{]*', '', re.sub('[^}]*$', '', schemaSearch.string)).replace("\\'", "'").replace('\\n', '').replace('\\\\"', ''))) if schemaSearch is not None else None
+        except:
+            self.schema = None
         # Get title
-        self.title = self.soup.title.string
+        title = self.soup.title
+        self.title = title.string if title is not None else None
         ttl = self.soup.find("meta", property='og:title')
         self.title = ttl.get('content') if self.title is None and ttl is not None else self.title
         # Fetch all meta data
@@ -75,7 +77,10 @@ class Site_Data:
                     largest[1] = len(popImages[key])
             self.images = []
             for img in popImages[largest[0]]:
-                self.images += [[img['src'], img.get('alt')]]
+                try:
+                    self.images += [[img['src'], img.get('alt')]]
+                except:
+                    pass
         else:
             self.images = []
         # Fetch video info
@@ -138,7 +143,7 @@ class Site_Data:
         c1 = 0
         quotes = []
         notQuotes = []
-        for partition in self.body.rjust(1).split('"'):
+        for partition in re.split('["“”]', self.body.rjust(1)):
             c1 += 1
             if c1 % 2 == 0:
                 # confirm quote is longer than 5 words
@@ -318,17 +323,21 @@ def test():
 
 @app.route("/request", methods=['POST'])
 def get_page_data(url=None):
+    # print(firestore.client().collection('articles').document('url').get())
+    print(firestore.client().collection('articles').document(u'NAuT0kNfQvLQFlila3AT').get().to_dict())
+    return ""
     if url is None:
         url = request.form.get('url')
+        if url is None: return "An error occured loading the URL"
     newdt = Site_Data(url)
     newdt.process_article()
     newdt.total_rating()
-    return str(newdt.rating)
+    return str(newdt.rating) + " - O {}, M {}, C {}".format(newdt.opinionScore, newdt.mediaScore, newdt.citationScore)
 
 # Maintenance
 
 # Schedule jobs
-cron.add_job(func=trigger_headline_collect, trigger='interval', minutes=1)
+cron.add_job(func=trigger_headline_collect, trigger='interval', minutes=10)
 cron.start()
 
 if __name__ == "__main__":
