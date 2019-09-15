@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Flask, request, render_template
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
@@ -35,7 +36,7 @@ class Site_Data:
         # Get Schema
         try:
             schemaSearch = self.soup.find('script', text=re.compile('schema.org'))
-            print(re.sub(r'\\x..', '', re.sub('^[^{]*', '', re.sub('[^}]*$', '', schemaSearch.string)).replace("\\'", "'")))
+            # print(re.sub(r'\\x..', '', re.sub('^[^{]*', '', re.sub('[^}]*$', '', schemaSearch.string)).replace("\\'", "'")))
             self.schema = loads(re.sub(r'\\x..', '', re.sub('^[^{]*', '', re.sub('[^}]*$', '', schemaSearch.string)).replace("\\'", "'").replace('\\n', '').replace('\\\\"', ''))) if schemaSearch is not None else None
         except:
             self.schema = None
@@ -214,10 +215,10 @@ class Site_Data:
         videoScore = self.video_ref()
 
         citation = 1
-        opinion = 1
-        caption = 1
-        video = 0.3
-        print(self.video)
+        opinion = 1.5
+        caption = 0.6
+        video = 0.2
+        # print(self.video)
         print(citationScore, opinionScore, captionScore, videoScore)
         score = ( citation * citationScore + opinion * opinionScore + caption * captionScore + video * videoScore ) / ( citation + opinion + caption + video)
         
