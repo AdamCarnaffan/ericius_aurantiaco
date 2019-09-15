@@ -6,6 +6,8 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager import chrome
 from json import loads, dumps
 from apscheduler.schedulers.background import BackgroundScheduler
+from firebase_admin import db, credentials, firestore
+import firebase_admin
 import requests
 import time
 import re
@@ -14,6 +16,14 @@ app = Flask(__name__)
 
 # Background Scheduler
 cron = BackgroundScheduler()
+
+# Database
+cred = credentials.Certificate('serviceAccountKey.json')
+firebase_admin.initialize_app(cred)
+
+
+conn = firestore.client().collection('articles')
+
 
 class Site_Data:
 
@@ -103,6 +113,21 @@ class Site_Data:
         del dp['soup']
         return dumps(dp)
 
+    def export(self):
+        data = {}
+        data['citation_score'] = self.citationScore
+        data['headline'] = self.title
+        data['media_score'] = self.mediaScore
+        data['opinion_score'] = self.opinionScore
+        data['rating'] = self.rating
+        data['thumbnail'] = self.images[0][0] if len(self.images) > 0 else None
+        data['timestamp'] = self.publish
+        data['url'] = self.url
+        return data
+
+    def insert(self):
+        pass
+
     #####################
     # RATINGS FUNCTIONS #
     #####################
@@ -179,6 +204,11 @@ class Site_Data:
         print(citationScore, opinionScore, captionScore, videoScore)
         score = ( citation * citationScore + opinion * opinionScore + caption * captionScore + video * videoScore ) / ( citation + opinion + caption + video)
         
+
+        
+        self.citationScore = citationScore
+        self.opinionScore = opinionScore
+        self.mediaScore = (caption * captionScore + video * videoScore) / (caption + video)
         self.rating = score
 
         return self
@@ -297,7 +327,7 @@ def get_page_data(url=None):
 # Maintenance
 
 # Schedule jobs
-cron.add_job(func=trigger_headline_collect, trigger='interval', minutes=10)
+cron.add_job(func=trigger_headline_collect, trigger='interval', minutes=1)
 cron.start()
 
 if __name__ == "__main__":
