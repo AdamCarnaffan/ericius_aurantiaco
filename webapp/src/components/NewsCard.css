@@ -122,6 +122,8 @@
 .user-metric-status {
   opacity: 0;
   transition: opacity 0.5s ease-in-out !important;
+  pointer-events: all !important;
+  /* border: 1.5px solid !important; */
 }
 
 .animate-user-metric-status {

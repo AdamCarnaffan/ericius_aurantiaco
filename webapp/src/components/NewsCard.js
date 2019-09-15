@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   Col, Row, Button,
-  Card, CardImg, CardText, CardBody, CardTitle
+  Card, CardImg, CardText, CardBody, CardTitle,
+  UncontrolledTooltip
 } from 'reactstrap';
 import Truncate from 'react-truncate';
 import lerpColour from 'color-interpolate';
@@ -13,8 +14,9 @@ import './NewsCard.css';
 function MetricStatusButton(props) {
   return (
     <div className="news-card-score-overlay">
-      <MetricStatusButtonInner statusColour={props.statusColour} onStatusButtonClicked={props.onStatusButtonClicked}
-        statusIcon={props.statusIcon} honestyMetric={props.honestyMetric} />
+      <MetricStatusButtonInner className={props.className} statusColour={props.statusColour} 
+        onStatusButtonClicked={props.onStatusButtonClicked} statusIcon={props.statusIcon} 
+        honestyMetric={props.honestyMetric} />
     </div>
   );
 }
@@ -23,7 +25,8 @@ function MetricStatusButtonInner(props) {
   const shadowClass = 'shadow' in props && props.shadow ? 'shadow' : '';
   return (
     <Button size="md" style={{background: props.statusColour, borderColor: props.statusColour}} 
-      className={"m-3 news-card-score-button " + shadowClass + " " + props.className} onClick={props.onStatusButtonClicked}>
+      className={"news-card-score-button " + shadowClass + " " + props.className} onClick={props.onStatusButtonClicked}
+      id={props.id}>
         <div className="w-100 h-100 align-self-center">
           <FontAwesomeIcon icon={props.statusIcon} className="mr-2" />
           <strong>{props.honestyMetric}</strong>
@@ -126,7 +129,8 @@ export default class NewsCard extends Component {
           <Col md="3" className="order-1 order-md-12 card-thumbnail-col">
             <Thumbnail image={this.props.thumbnail} />
             <MetricStatusButton statusColour={statusColour} statusIcon={statusIcon}
-              onStatusButtonClicked={this.onStatusButtonClicked} honestyMetric={this.props.honestyMetric} shadow />
+              onStatusButtonClicked={this.onStatusButtonClicked} honestyMetric={this.props.honestyMetric} 
+              className="m-3" shadow />
           </Col>
         </Row>
         <Row className="ripple-overlay">
@@ -135,13 +139,17 @@ export default class NewsCard extends Component {
             <Row>
               <Col className="d-flex flex-row justify-content-end">           
                 <MetricStatusButtonInner statusColour={statusColour} statusIcon={statusIcon}
-              onStatusButtonClicked={this.onStatusButtonClicked} honestyMetric={this.props.honestyMetric} />
+                  onStatusButtonClicked={this.onStatusButtonClicked} honestyMetric={this.props.honestyMetric}
+                  className="m-3" />
               </Col>
               <div className="w-100"></div>
               <Col className="d-flex flex-row justify-content-end">           
                 <MetricStatusButtonInner statusColour={statusColour} statusIcon={userStatusIcon} 
-                  honestyMetric={this.props.userHonestyMetric} 
-                  className={"user-metric-status " + userMetricStatusAnimationClass} />
+                  honestyMetric={this.props.userHonestyMetric} id="userMetricStatusButton"
+                  className={"user-metric-status mx-3 " + userMetricStatusAnimationClass} />
+                  <UncontrolledTooltip placement="right" target="userMetricStatusButton">
+                    This is how users have rated this source.
+                  </UncontrolledTooltip>
               </Col>
             </Row>
           </div>
