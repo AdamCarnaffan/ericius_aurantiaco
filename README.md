@@ -13,6 +13,7 @@ This web application and chrome extension displays a figure from 0-100 on a slid
 To give a quantifiable measure of reliability and honesty, allowing users to compare articles to obtain only the most reliable, credible, and honest sources of information. 
 
 ## How I built it
+
 First, we web-scraped Google News for news articles and processed the information using Google's Cloud's app engine. Each news article found was then scraped and judged for honesty/reliability against the following criteria:
 
 - Presence of citations
@@ -25,23 +26,24 @@ First, we web-scraped Google News for news articles and processed the informatio
 
 Each criteria above contributes to a weighted mean and results in an overall honesty rating of the news article. Each rating is saved into Google Firebase, to reduce the amount of times scraping needs to be done for a unique article in the web app.
 
-Additionally, we incorporated a user-honesty score powered by SurveyMonkey to allow users to provide their feedback for the community.
+Additionally, we incorporated a user-honesty score powered by SurveyMonkey to allow users to provide their rating about news articles as feedback for the community.
 
 ## Challenges we ran into
+
 - Coming up with multi-variable functions to model the citations, opinion, and image captioning senarios correctly.
 - Embedding the SurveyMonkey implementation code on the react platform due to overlays 
 
-
 ## Accomplishments that we're proud of
-The smooth transitions and displays related to the web-app design! 
+
+- The smooth transitions and displays related to the web-app design!
+- Successfully aggregating multi-variable functions to come up with an accurate rating system
 
 ## What we learned
-There are so many tools available to make the project proc, such as Google's Firebase, G
+
+There are so many tools available to make the project run smoothly and efficiently, such as Google's Firebase and React. We learned how to add Firebase's features to our web-app to bring our ideas to reality.  
 
 ## What's next for HonestNews?
 
 - Incorporate the Facebook API to automatically post the top rated HonestNews articles to the HonestNews facebook page, to allow those who follow the page to have a reliable newsource from hourly/daily updates.
-
 - Incorporate the Voiceflow API to ask a Google Home "Tell us the honest news today", to output a filtered list of news articles for the user to choose from.
-
 - Using machine learning and sentiment analysis to detect bias in news articles.
