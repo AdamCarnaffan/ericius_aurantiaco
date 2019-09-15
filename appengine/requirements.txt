@@ -13,3 +13,4 @@ urllib3==1.24.1
 webdriver-manager==1.8.2
 apscheduler==3.6.1
 firebase_admin==3.0.0
+flask-cors==3.0.7
