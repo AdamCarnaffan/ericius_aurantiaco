@@ -35,9 +35,11 @@ class Site_Data:
     def process_article(self):
         # Get Schema
         schemaSearch = self.soup.find('script', text=re.compile('schema.org'))
-        self.schema = loads(re.sub(r'\\x..', '', schemaSearch.string.split('\\n', 1)[-1].rsplit('\\n', 1)[0].strip().replace("\\'", "'"))) if schemaSearch is not None else None
+        print(re.sub(r'\\x..', '', re.sub('^[^{]*', '', re.sub('[^}]*$', '', schemaSearch.string)).replace("\\'", "'")))
+        self.schema = loads(re.sub(r'\\x..', '', re.sub('^[^{]*', '', re.sub('[^}]*$', '', schemaSearch.string)).replace("\\'", "'").replace('\\n', ''))) if schemaSearch is not None else None
         # Get title
-        self.title = self.soup.title.string
+        title = self.soup.title
+        self.title = title.string if title is not None else None
         ttl = self.soup.find("meta", property='og:title')
         self.title = ttl.get('content') if self.title is None and ttl is not None else self.title
         # Fetch all meta data
@@ -328,7 +330,7 @@ def get_page_data(url=None):
 # Maintenance
 
 # Schedule jobs
-cron.add_job(func=trigger_headline_collect, trigger='interval', minutes=1)
+cron.add_job(func=trigger_headline_collect, trigger='interval', minutes=10)
 cron.start()
 
 if __name__ == "__main__":
