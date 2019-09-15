@@ -20,7 +20,6 @@
 
   .news-card-score-overlay {
     padding: 0px !important;
-    text-align: right !important;
   }
 }
 
@@ -44,7 +43,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  text-align: left;
+  text-align: right;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -103,7 +102,7 @@
 }
 
 .block-events {
-  pointer-events: all !important;
+  pointer-events: none !important;
 }
 
 .metric-breakdown-content {
@@ -118,4 +117,14 @@
 .animate-metric-breakdown-content {
   transition-delay: 0.1s;
   opacity: 1;
+}
+
+.user-metric-status {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out !important;
+}
+
+.animate-user-metric-status {
+  transition-delay: 0.2s !important;
+  opacity: 1 !important;
 }
