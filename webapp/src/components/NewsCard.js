@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
   Col, Row, Button,
   Card, CardImg, CardText, CardBody, CardTitle
@@ -9,6 +9,21 @@ import lerpColour from 'color-interpolate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSmileBeam, faSmile, faMeh, faFrown, faSadCry } from '@fortawesome/free-solid-svg-icons';
 import './NewsCard.css';
+
+function MetricStatusButton(props) {
+  const shadowClass = 'shadow' in props && props.shadow ? 'shadow' : '';
+  return (
+    <div className="news-card-score-overlay">
+        <Button size="md" style={{background: props.statusColour, borderColor: props.statusColour}} 
+          className={"m-3 news-card-score-button " + shadowClass} onClick={props.onStatusButtonClicked}>
+            <div className="w-100 h-100 align-self-center">
+              <FontAwesomeIcon icon={props.statusIcon} className="mr-2" />
+              <strong>{props.honestyMetric}</strong>
+            </div>
+        </Button>
+    </div>
+  );
+}
 
 function Thumbnail(props) {
   if ('image' in props && props.image != null) {
@@ -24,11 +39,23 @@ function Thumbnail(props) {
 export default class NewsCard extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showMetricBreakdown: false
+    }
+
     this.onCardClick = this.onCardClick.bind(this);
+    this.onStatusButtonClicked = this.onStatusButtonClicked.bind(this);
   }
 
   onCardClick() {
     window.open(this.props.url, '_blank');
+  }
+
+  onStatusButtonClicked() {
+    this.setState({
+      showMetricBreakdown: !this.state.showMetricBreakdown
+    });
   }
 
   render() {
@@ -60,10 +87,14 @@ export default class NewsCard extends Component {
       statusIcon = faFrown;
     }
 
+    const rippleAnimationClass = this.state.showMetricBreakdown ? 'animate-ripple' : '';
+    const rippleOverlayBlockEventsClass = this.state.showMetricBreakdown ? 'block-events' : '';
+    const metricBreakdownAnimationClass = this.state.showMetricBreakdown ? 'animate-metric-breakdown-content' : '';
+
     return (
-        <Card className="news-card shadow border-0">
-          <Row>
-            <Col md="9" className="order-12">
+      <Card className="news-card shadow border-0">
+        <Row>
+          <Col md="9" className="order-12">
             <CardBody className="callout" style={{borderLeftColor: statusColour}}>
               <strong className="mb-2 text-secondary">{this.props.source.name}</strong>
               <CardTitle className="news-card-title mb-0 w-100" tag="h3" onClick={this.onCardClick}>
@@ -75,21 +106,26 @@ export default class NewsCard extends Component {
                 </Truncate>
               </CardText>
             </CardBody>
-            </Col>
-            <Col md="3" className="order-1 order-md-12 card-thumbnail-col">
-              <Thumbnail image={this.props.thumbnail} />
-              <div className="news-card-score-overlay">
-                <Button size="md" style={{background: statusColour, borderColor: statusColour}} 
-                  className="m-3 news-card-score-button shadow">
-                    <div className="w-100 h-100 align-self-center">
-                      <FontAwesomeIcon icon={statusIcon} className="mr-2" />
-                      <strong>{this.props.honestyMetric}</strong>
-                    </div>
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </Card>
+          </Col>
+          <Col md="3" className="order-1 order-md-12 card-thumbnail-col">
+            <Thumbnail image={this.props.thumbnail} />
+            <MetricStatusButton statusColour={statusColour} statusIcon={statusIcon}
+              onStatusButtonClicked={this.onStatusButtonClicked} honestyMetric={this.props.honestyMetric} shadow />
+          </Col>
+        </Row>
+        <Row className={"ripple-overlay " + rippleOverlayBlockEventsClass}>
+          <div className={"ripple " + rippleAnimationClass} style={{background: statusColour}} />
+          <MetricStatusButton statusColour={statusColour} statusIcon={statusIcon}
+              onStatusButtonClicked={this.onStatusButtonClicked} honestyMetric={this.props.honestyMetric} />
+          <Card className={"ripple-overlay w-100 metric-breakdown-content " + metricBreakdownAnimationClass}>
+            <CardBody>
+              <CardTitle className="news-card-title mb-0 w-100" tag="h5">
+                How was this rated?
+              </CardTitle>
+            </CardBody>
+          </Card>
+        </Row>
+      </Card>
     )
   }
 }

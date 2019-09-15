@@ -126,15 +126,21 @@ class Site_Data:
         else:
             return notQuotes
    
+    def totalWords(self):
+        length = 0
+        for text in self.getQuotes(False):
+            length += len(self.text.split())
+        return length
+
     # determine number of citations in page
     def citations(self):
-        citations = len(self.getQuotes(True))
-        return citations
+        citationScore = len(self.getQuotes(True))
+        return citationScore
 
     # COMBAK: we need to define fluff
-    def fluff(self):
-        fluff = 0
-        return fluff
+    #def fluff(self):
+    #    fluffScore = 0
+    #    return fluffScore
 
     def opinion(self):
         # count first person pronouns not in quotes
@@ -142,7 +148,37 @@ class Site_Data:
         pronouns = 0
         for words in text:
             pronouns += len(re.findall(r'(\Wi\W|\Wme\W|\Wwe\W|\Wus\W|\Wmyself\W|\Wmy\W|\Wour\W|\Wours\W)', words.lower()))
-        return pronouns
+        opinionScore = pronouns
+        return opinionScore
+
+    def videoRef(self)
+        textRef = 0
+        videoRef = 0
+        for text in self.getQuotes(False):
+             textRef += len(re.findall(r'((\Wvideo\W)(?!game)|\Wfilm\W|\Wclip\W|\Wmedia\W)', words.lower()))
+        if textRef > 2:
+            videoRef = 100
+        return videoRef
+
+    def totalRating(self, authorScore, siteScore):
+        score = 100
+        citationScore = -1 * ( 200 / (citations() + 3 ) ) + 100
+        opinionScore = ( 75 ) * ( 1.5 ^ ( ( -150 * opinion() ) / totalWords() ) + 25 )
+        captionCount = 0
+        for image in self.images:
+            if image[1] != None:
+                captionCount += 1
+        captionScore = 1.032 * (-2 ^ ( (-5 * captionCount) / len(self.images) ) + 1 )
+        videoScore = videoRef
+
+        citation = 1
+        opinion = 1
+        caption = 1
+        video = 0.3
+        score = ( citation * citationScore + opinion * opinionScore + caption * captionScore + video * videoScore ) / ( citation + opinion + caption + video)
+        
+        return score
+
 
 ###############
 # AUTO-PARSER #
