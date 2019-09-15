@@ -130,3 +130,13 @@
   transition-delay: 0.2s !important;
   opacity: 1 !important;
 }
+
+.rate-button {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out !important;
+}
+
+.animate-rate-button {
+  transition-delay: 0.2s !important;
+  opacity: 1 !important;
+}

@@ -8,7 +8,7 @@ import Truncate from 'react-truncate';
 import lerpColour from 'color-interpolate';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSmileBeam, faSmile, faMeh, faFrown, faSadCry } from '@fortawesome/free-solid-svg-icons';
+import { faSmileBeam, faSmile, faMeh, faFrown, faSadCry, faUsers, faPoll } from '@fortawesome/free-solid-svg-icons';
 import './NewsCard.css';
 
 function MetricStatusButton(props) {
@@ -108,6 +108,7 @@ export default class NewsCard extends Component {
     const rippleOverlayBlockEventsClass = this.state.showMetricBreakdown ? 'block-events' : '';
     const metricBreakdownAnimationClass = this.state.showMetricBreakdown ? 'animate-metric-breakdown-content' : '';
     const userMetricStatusAnimationClass = this.state.showMetricBreakdown ? 'animate-user-metric-status' : '';
+    const rateButtonAnimationClass = this.state.showMetricBreakdown ? 'animate-rate-button' : '';
 
     const breakdownFactorBars = this.props.breakdownFactors.map((factor) => (
       <Col md="6" className="pl-0">  
@@ -158,16 +159,24 @@ export default class NewsCard extends Component {
                     This is how users have rated this source.
                   </UncontrolledTooltip>
               </Col>
+              <div className="w-100"></div>
+              <Col className="d-flex flex-row justify-content-end align-bottom">
+                <Button size="md" color="dark" className={"m-3 news-card-score-button rate-button " + rateButtonAnimationClass}>
+                    <div className="w-100 h-100 align-self-center">
+                      <FontAwesomeIcon icon={faPoll} className="mr-2" />
+                      <strong>Rate</strong>
+                    </div>
+                </Button>
+              </Col>
             </Row>
           </div>
-
 
           <Card className={"ripple-overlay w-100 metric-breakdown-content " + metricBreakdownAnimationClass}>
             <CardBody>
               <CardTitle className="news-card-title mb-0 w-100" tag="h5">
                 How was this rated?
               </CardTitle>
-              <Col md="9">
+              <Col md="9" sm="9" xs="8">
                 <Row className="mt-2">
                   {breakdownFactorBars}
                 </Row>
