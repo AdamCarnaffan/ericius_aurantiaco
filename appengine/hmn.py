@@ -3,6 +3,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
 from json import loads, dumps
+from hmn import grabber
 
 app = Flask(__name__)
 
@@ -175,3 +176,5 @@ def get_page_data(url=None):
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='8080')
+
+from hmn import grabber
